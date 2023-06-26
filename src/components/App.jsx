@@ -1,5 +1,70 @@
 import React from 'react';
+import bookContacts from '../data/bookContacts';
+import { nanoid } from 'nanoid';
+import { ContactForm } from './ContactForm/ContactForm';
+import { Filter } from './Filter/Filter';
+import { ContactList } from './ContactList/ContactList';
+import PropTypes from 'prop-types';
+
+const contacts = bookContacts.contacts;
 
 export class App extends React.Component {
-  state = {};
+  state = {
+    contacts,
+    filter: '',
+  };
+
+  onRemoveContact = contactId => {
+    console.log(contactId);
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
+
+  onAddContact = contactData => {
+    const contact = {
+      ...contactData,
+      id: nanoid(),
+    };
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, contact],
+    }));
+    console.log(contactData);
+  };
+
+  changeFilter = e => {
+    this.setState({ filter: e.target.value });
+  };
+
+  render() {
+    const { contacts, filter } = this.state;
+    const filteredContacts = contacts.filter(
+      contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase()) ||
+        contact.number.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    return (
+      <>
+        <h1>Phonebook</h1>
+        <ContactForm onAddContact={this.onAddContact} />
+        <h2>Contacts</h2>
+        <Filter value={filter} onChange={this.changeFilter} />
+        <ContactList
+          contacts={filteredContacts}
+          onRemoveContact={this.onRemoveContact}
+        />
+      </>
+    );
+  }
 }
+App.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  filter: PropTypes.string.isRequired,
+};
