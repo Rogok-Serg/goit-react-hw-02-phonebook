@@ -14,6 +14,20 @@ export class App extends React.Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   onRemoveContact = contactId => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
@@ -40,6 +54,7 @@ export class App extends React.Component {
   changeFilter = e => {
     this.setState({ filter: e.target.value });
   };
+
   getFilteredContacts = () => {
     const { contacts, filter } = this.state;
     return contacts.filter(
