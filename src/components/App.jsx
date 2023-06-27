@@ -40,7 +40,6 @@ export class App extends React.Component {
 
   changeFilter = e => {
     this.setState({ filter: e.target.value });
-    console.log(e.target.value);
   };
   changeFilterContact = e => {
     this.setState({ filterContact: e.target.value });
