@@ -15,7 +15,6 @@ export class App extends React.Component {
   };
 
   onRemoveContact = contactId => {
-    console.log(contactId);
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
