@@ -9,7 +9,6 @@ export class ContactForm extends React.Component {
   };
 
   handelInputChange = e => {
-    console.log(e.target.value);
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -17,7 +16,6 @@ export class ContactForm extends React.Component {
   handelSubmit = e => {
     e.preventDefault();
     const contactData = { ...this.state };
-    console.log(this.state);
     this.props.onAddContact(contactData);
     this.setState({
       name: '',
@@ -26,10 +24,9 @@ export class ContactForm extends React.Component {
   };
   render() {
     return (
-      <form onSubmit={this.handelSubmit}>
-        <h2>ContactForm</h2>
-        <label>
-          <span>Name:</span>
+      <form className={css.form} onSubmit={this.handelSubmit}>
+        <span>Name</span>
+        <label className={css.label}>
           <input
             onChange={this.handelInputChange}
             type="text"
@@ -40,8 +37,8 @@ export class ContactForm extends React.Component {
             required
           />
         </label>
+        <span>Number</span>
         <label>
-          <span>Number:</span>
           <input
             onChange={this.handelInputChange}
             type="text"
@@ -52,7 +49,9 @@ export class ContactForm extends React.Component {
             required
           />
         </label>
-        <button type="submit">Add contact</button>
+        <button className={css.button} type="submit">
+          Add contact
+        </button>
       </form>
     );
   }

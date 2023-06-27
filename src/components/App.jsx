@@ -26,14 +26,24 @@ export class App extends React.Component {
       ...contactData,
       id: nanoid(),
     };
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, contact],
-    }));
-    console.log(contactData);
+
+    const comparison = this.state.contacts.find(
+      el => contactData.name.toLowerCase() === el.name.toLowerCase()
+    );
+
+    comparison
+      ? alert(`${contactData.name} is already in contacts!`)
+      : this.setState(prevState => ({
+          contacts: [...prevState.contacts, contact],
+        }));
   };
 
   changeFilter = e => {
     this.setState({ filter: e.target.value });
+    console.log(e.target.value);
+  };
+  changeFilterContact = e => {
+    this.setState({ filterContact: e.target.value });
   };
 
   render() {
@@ -43,7 +53,6 @@ export class App extends React.Component {
         contact.name.toLowerCase().includes(filter.toLowerCase()) ||
         contact.number.toLowerCase().includes(filter.toLowerCase())
     );
-
     return (
       <>
         <h1>Phonebook</h1>
@@ -65,6 +74,6 @@ App.propTypes = {
       name: PropTypes.string.isRequired,
       number: PropTypes.string.isRequired,
     })
-  ).isRequired,
-  filter: PropTypes.string.isRequired,
+  ),
+  filter: PropTypes.string,
 };
