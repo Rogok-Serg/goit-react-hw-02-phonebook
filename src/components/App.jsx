@@ -75,11 +75,12 @@ export class App extends React.Component {
         {contacts.length !== 0 && (
           <Filter value={filter} onChange={this.changeFilter} />
         )}
-
-        <ContactList
-          contacts={filteredContacts}
-          onRemoveContact={this.onRemoveContact}
-        />
+        {contacts.length !== 0 && (
+          <ContactList
+            contacts={filteredContacts}
+            onRemoveContact={this.onRemoveContact}
+          />
+        )}
       </>
     );
   }
